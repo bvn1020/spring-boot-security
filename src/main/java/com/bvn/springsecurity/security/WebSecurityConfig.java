@@ -30,6 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
+	
+	private static final String ROLE_ADMIN = "ADMIN";
 
 	@Bean
 	public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -59,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests()
 				.antMatchers("/api/auth/**").permitAll()
-				.antMatchers("/roles/**").hasRole("ADMIN")
+				.antMatchers("/roles/**").hasRole(ROLE_ADMIN)
 				.anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

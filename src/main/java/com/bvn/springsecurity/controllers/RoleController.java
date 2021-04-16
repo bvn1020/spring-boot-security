@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bvn.springsecurity.models.Role;
 import com.bvn.springsecurity.payload.request.AddRoleRequest;
+import com.bvn.springsecurity.payload.response.DataResponse;
 import com.bvn.springsecurity.payload.response.MessageResponse;
+import com.bvn.springsecurity.repository.RoleRepository;
 import com.bvn.springsecurity.services.RoleService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -21,11 +23,19 @@ import com.bvn.springsecurity.services.RoleService;
 public class RoleController {
 	@Autowired
 	RoleService roleService;
+	
+	@Autowired
+	RoleRepository roleRepository;
 
 	@PostMapping("/add")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody AddRoleRequest addRoleRequest) {
+		if (roleRepository.existsByName(addRoleRequest.getRoleName())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Role already exists!"));
+		}
 		Role role = new Role(addRoleRequest.getRoleName());
 		roleService.addRole(role);
-		return ResponseEntity.ok(new MessageResponse("Add new Role successfully!"));
+		return ResponseEntity.ok(new DataResponse("Add new Role successfully!", role));
 	}
 }
