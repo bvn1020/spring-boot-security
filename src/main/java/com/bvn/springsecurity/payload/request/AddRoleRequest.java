@@ -13,7 +13,6 @@ public class AddRoleRequest {
 
 	public AddRoleRequest() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public AddRoleRequest(@NotBlank @Size(min = 3, max = 20) String roleName) {

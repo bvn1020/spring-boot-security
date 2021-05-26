@@ -5,7 +5,6 @@ public class DataResponse extends MessageResponse {
 
 	public DataResponse(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	public DataResponse(String message, Object data) {
